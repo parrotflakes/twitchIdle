@@ -21,7 +21,7 @@ h1#streamername {
 }
 
 p {
-    font-size: 70px;
+    font-size: 60px;
     margin-top: 0;
 }
 
@@ -33,7 +33,7 @@ td {
     padding-left: 30px;
 }
 
-td:nth-child(1) {
+p.blue {
     color: #c5fff5;    
 }
 
@@ -41,6 +41,7 @@ td:nth-child(1) p span {
     font-style: italic;
 }
 
-td:nth-child(2) {
-    max-width: 2000px;
+
+table#streaminfo tr:nth-child(1) {
+    max-width: 1500px;
 }
