@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PARROT'S IDLE SCREEN</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <!-- dedicated stylesheet -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Space Mono: regular, italic -->
+    <!-- 'Space Mono', monospace -->
+</head>
+
+<body>
+
+    <div id="name">
+        <h1 id="streamername">PARROTFLAKES</h1>
+    </div>
+
+    <div id="streaminfo">
+        <table>
+            <tr>
+                <td>
+                    <p>> <span>TITLE: </span></p>
+                </td>
+                <td>
+                    <p id="title" class="padding"></p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <!-- <td>
+                    <div id="gameimg"></div>
+                </td> -->
+                <td>
+                    <p>><span> CURRENTLY_STREAMING: </span></p>
+                </td>
+                <td>
+                    <p id="game" class="padding"></p>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    <p>> <span>INITIALIZATION: </span></p>
+                </td>
+                <td>
+                    <p id="start" class="padding"></p>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    <p>> <span>USER_ID: </span></p>
+                </td>
+                <td>
+                    <p id="userid" class="padding"></p>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    <p>> <span>LATEST_FOLLOW: </span></p>
+                </td>
+                <td>
+                    <p id="follow" class="padding"></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var $title = $('p#title');
+            var $list = $('#list');
+            var $gameimg = $('div#gameimg');
+            var $game = $('p#game');
+            var $start = $('p#start');
+            var $userid = $('p#userid');
+            var $follow = $('#follow');
+
+            var $gameURL = 'https://api.twitch.tv/helix/games';
+
+            /* USER */
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.twitch.tv/helix/users?login=parrotflakes',
+                headers: {
+                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                },
+                success: function (user) {
+                    console.log('USER', user);
+                    $userid.append(user.data[0].id);
+                }
+            });
+
+            /* STREAM */
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.twitch.tv/helix/streams?user_id=130893580',
+                headers: {
+                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                },
+                success: function (stream) {
+                    console.log('STREAM', stream);
+                    $gameID = stream.data[0].game_id;
+                    $gameURL = $gameURL + '?id=' + $gameID;
+                    $title.append(stream.data[0].title.toUpperCase());
+                    $start.append(stream.data[0].started_at);
+
+                    /* GAME */
+                    $.ajax({
+                        type: 'GET',
+                        url: $gameURL,
+                        headers: {
+                            "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                        },
+                        success: function (game) {
+                            console.log('GAME', game)
+                            $gameimg.append('<img src="https://static-cdn.jtvnw.net/ttv-boxart/' + game.data[0].name + '-200x300.jpg"/>')
+                            $game.append(game.data[0].name.toUpperCase());
+                        }
+                    });
+                }
+            });
+
+            /* FOLLOWS */
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.twitch.tv/helix/users/follows?to_id=130893580',
+                headers: {
+                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                },
+                success: function (follows) {
+                    console.log('FOLLOWS', follows);
+                    $follow.append(follows.data[0].from_name.toUpperCase());
+                }
+            });
+
+        });
+    </script>
+
+
+</body>
+
+</html>
