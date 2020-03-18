@@ -8,6 +8,6 @@
  
  So, using this project's GitHub Pages site as a URL for a 'browser' source, I can display it on my stream as the backdrop for a scene. I say 'idle' scene as in one I can use for when I start, when I end, when I switch games, etc; it is generic (as of right now) and multi-purpose.
 
-## For the tecnologically initiated
+## For the technologically initiated
 Read the above section if you don't know much about livestreaming.
 This is a display of my Twitch user and stream information provided by Twitch's API. You can find documentation for it [here](https://dev.twitch.tv/docs/api). Although thanks is likely not required, I appreciate the help of @RatWithAShotgun and @DBKynd on Twitch for helping me out with some API and JavaScript work that even StackOverflow couldn't solve for me. 
