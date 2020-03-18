@@ -9,83 +9,86 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
     <!-- Space Mono: regular, italic -->
-    <!-- 'Space Mono', monospace -->
+    <!-- font-family: 'Space Mono', monospace -->
 </head>
 
 <body>
     <table>
-            <td> <!-- LEFT -->
-                <div id="name">
-                    <h1 id="streamername">PARROTFLAKES</h1>
-                </div>
+        <td>
+            <!-- LEFT -->
+            <div id="name">
+                <h1 id="streamername">PARROTFLAKES</h1>
+            </div>
 
-                <div>
-                    <table id="streaminfo">
-                        <tr>
-                            <td>
-                                <p class="blue">> <span>TITLE: </span></p>
-                            </td>
-                            <td>
-                                <p id="title" class="padding"></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </table>
+            <div>
+                <table id="streaminfo">
+                    <tr>
+                        <td>
+                            <p class="blue">> <span>TITLE: </span></p>
+                        </td>
+                        <td>
+                            <p id="title" class="padding"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <p class="blue">><span> CURRENTLY_STREAMING: </span></p>
-                            </td>
-                            <td>
-                                <p id="game" class="padding"></p>
-                            </td>
-                        </tr>
-                    </table>
+                <table>
+                    <tr>
+                        <td>
+                            <p class="blue">><span> CURRENTLY_STREAMING: </span></p>
+                        </td>
+                        <td>
+                            <p id="game" class="padding"></p>
+                        </td>
+                    </tr>
+                </table>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <p class="blue">> <span>INITIALIZATION: </span></p>
-                            </td>
-                            <td>
-                                <p id="start" class="padding"></p>
-                            </td>
-                        </tr>
-                    </table>
+                <table>
+                    <tr>
+                        <td>
+                            <p class="blue">> <span>INITIALIZATION: </span></p>
+                        </td>
+                        <td>
+                            <p id="start" class="padding"></p>
+                        </td>
+                    </tr>
+                </table>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <p class="blue">> <span>USER_ID: </span></p>
-                            </td>
-                            <td>
-                                <p id="userid" class="padding"></p>
-                            </td>
-                        </tr>
-                    </table>
+                <table>
+                    <tr>
+                        <td>
+                            <p class="blue">> <span>USER_ID: </span></p>
+                        </td>
+                        <td>
+                            <p id="userid" class="padding"></p>
+                        </td>
+                    </tr>
+                </table>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <p class="blue">> <span>LATEST_FOLLOW: </span></p>
-                            </td>
-                            <td>
-                                <p id="follow" class="padding"></p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <p class="blue">> <span>LATEST_FOLLOW: </span></p>
+                        </td>
+                        <td>
+                            <p id="follow" class="padding"></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
 
 
         </td> <!-- /LEFT -->
-        <td> <!-- RIGHT -->
-            <iframe frameborder="0" scrolling="yes" id="chat_embed"
-                src="https://www.twitch.tv/embed/parrotflakes/chat" height="2160" width="700">
+        <td>
+            <!-- RIGHT -->
+            <iframe class="hide" src="https://google.com" height="0" width="0">
             </iframe>
+            <!-- the first instance of an iframe on this document defaults to my Twitch chat for some reason. So keep this one, hide it in the script, and use the next iframe as usual. -->
+            <iframe id="actual" src="https://streamlabs.com/widgets/chat-box/v1/0428F5329B012885A1E4"></iframe>
         </td> <!-- /RIGHT -->
     </table> <!-- END OF TABLE WRAP -->
 
@@ -107,6 +110,8 @@
             var $follow = $('#follow');
 
             var $gameURL = 'https://api.twitch.tv/helix/games';
+
+            $('.hide').hide();
 
             /* USER */
             $.ajax({

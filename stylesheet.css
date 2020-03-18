@@ -45,3 +45,12 @@ td:nth-child(1) p span {
 table#streaminfo tr:nth-child(1) {
     max-width: 1500px;
 }
+
+iframe#actual {
+    height: 2160px;
+    width: 2000px;
+    font-size: 500px;
+    position: absolute;
+    right: 1200px;
+    border: 0;
+}
