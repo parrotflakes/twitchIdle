@@ -2,6 +2,7 @@ html {
     background-color: white;
     font-family: 'Space Mono', monospace;
     color: white;
+    word-wrap: break-word;
 }
 
 body {
@@ -29,6 +30,7 @@ p {
 td {
     vertical-align: top;
     text-shadow: 6px 0px rgb(87, 75, 255);
+    border: 2px solid red
 }
 
 .padding {
@@ -44,15 +46,31 @@ td:nth-child(1) p span {
     font-style: italic;
 }
 
-
-table#streaminfo tr:nth-child(1) {
-    max-width: 1500px;
-}
-
 iframe#actual {
     height: 2160px;
     width: 2000px;
     position: absolute;
     right: 1200px;
     border: 0;
+}
+
+#title {
+    max-width: 1300px;
+    width: 100%;
+}
+
+#game {
+    max-width: 930px;
+}
+
+#start {
+    max-width: 1100px;
+}
+
+#userid {
+    max-width: 1400px;
+}
+
+#follow {
+    max-width: 1100px;
 }
