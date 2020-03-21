@@ -27,7 +27,7 @@
                             <p class="blue">> <span>TITLE: </span></p>
                         </td>
                         <td>
-                            <p id="title" class="padding"></p>
+                            <p id="title" class="padding">null</p>
                         </td>
                     </tr>
                     <tr>
@@ -41,7 +41,7 @@
                             <p class="blue">><span> CURRENTLY_STREAMING: </span></p>
                         </td>
                         <td>
-                            <p id="game" class="padding"></p>
+                            <p id="game" class="padding">null</p>
                         </td>
                     </tr>
                 </table>
@@ -52,7 +52,7 @@
                             <p class="blue">> <span>INITIALIZATION: </span></p>
                         </td>
                         <td>
-                            <p id="start" class="padding"></p>
+                            <p id="start" class="padding">null</p>
                         </td>
                     </tr>
                 </table>
@@ -63,7 +63,7 @@
                             <p class="blue">> <span>USER_ID: </span></p>
                         </td>
                         <td>
-                            <p id="userid" class="padding"></p>
+                            <p id="userid" class="padding">null</p>
                         </td>
                     </tr>
                 </table>
@@ -74,7 +74,7 @@
                             <p class="blue">> <span>LATEST_FOLLOW: </span></p>
                         </td>
                         <td>
-                            <p id="follow" class="padding"></p>
+                            <p id="follow" class="padding">null</p>
                         </td>
                     </tr>
                 </table>
@@ -83,13 +83,6 @@
 
 
         </td> <!-- /LEFT -->
-        <td>
-            <!-- RIGHT -->
-            <iframe class="hide" src="https://google.com" height="0" width="0">
-            </iframe>
-            <!-- the first instance of an iframe on this document defaults to my Twitch chat for some reason. So keep this one, hide it in the script, and use the next iframe as usual. -->
-            <!-- <iframe id="actual" src="https://streamlabs.com/widgets/chat-box/v1/0428F5329B012885A1E4"></iframe> HIDDEN BECAUSE BROKEN -->
-        </td> <!-- /RIGHT -->
     </table> <!-- END OF TABLE WRAP -->
 
 
@@ -101,74 +94,82 @@
     <script>
         $(document).ready(function () {
 
-            var $title = $('p#title');
-            var $list = $('#list');
-            var $gameimg = $('div#gameimg');
-            var $game = $('p#game');
-            var $start = $('p#start');
-            var $userid = $('p#userid');
-            var $follow = $('#follow');
+            var $title = document.getElementById("title");
+            var $list = document.getElementById("list");
+            var $game = document.getElementById("game");
+            var $start = document.getElementById("start");
+            var $userid = document.getElementById("userid");
+            var $follow = document.getElementById("follow");
 
             var $gameURL = 'https://api.twitch.tv/helix/games';
 
             $('.hide').hide();
 
-            /* USER */
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.twitch.tv/helix/users?login=parrotflakes',
-                headers: {
-                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
-                },
-                success: function (user) {
-                    console.log('USER', user);
-                    $userid.append(user.data[0].id);
-                }
-            });
+            function ajax() {
+                /* USER */
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.twitch.tv/helix/users?login=parrotflakes',
+                    headers: {
+                        "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                    },
+                    success: function (user) {
+                        console.log('USER', user);
+                        $userid.innerHTML = user.data[0].id;
+                    }
+                });
 
-            /* STREAM */
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.twitch.tv/helix/streams?user_id=130893580',
-                headers: {
-                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
-                },
-                success: function (stream) {
-                    console.log('STREAM', stream);
-                    $gameID = stream.data[0].game_id;
-                    $gameURL = $gameURL + '?id=' + $gameID;
-                    $title.append(stream.data[0].title.toUpperCase());
-                    $start.append(stream.data[0].started_at);
+                /* STREAM */
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.twitch.tv/helix/streams?user_id=130893580',
+                    headers: {
+                        "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                    },
+                    success: function (stream) {
+                        console.log('STREAM', stream);
+                        $gameID = stream.data[0].game_id;
+                        $gameURL = $gameURL + '?id=' + $gameID;
+                        $title.innerHTML = stream.data[0].title.toUpperCase();
+                        $start.innerHTML = stream.data[0].started_at;
 
-                    /* GAME */
-                    $.ajax({
-                        type: 'GET',
-                        url: $gameURL,
-                        headers: {
-                            "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
-                        },
-                        success: function (game) {
-                            console.log('GAME', game)
-                            $gameimg.append('<img src="https://static-cdn.jtvnw.net/ttv-boxart/' + game.data[0].name + '-200x300.jpg"/>')
-                            $game.append(game.data[0].name.toUpperCase());
-                        }
-                    });
-                }
-            });
+                        /* GAME */
+                        $.ajax({
+                            type: 'GET',
+                            url: $gameURL,
+                            headers: {
+                                "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                            },
+                            success: function (game) {
+                                console.log('GAME', game);
+                                $game.innerHTML = game.data[0].name.toUpperCase();
+                            }
+                        });
+                    }
+                });
 
-            /* FOLLOWS */
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.twitch.tv/helix/users/follows?to_id=130893580',
-                headers: {
-                    "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
-                },
-                success: function (follows) {
-                    console.log('FOLLOWS', follows);
-                    $follow.append(follows.data[0].from_name.toUpperCase());
-                }
-            });
+                /* FOLLOWS */
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.twitch.tv/helix/users/follows?to_id=130893580&first=1',
+                    headers: {
+                        "Client-ID": "f0svvmqdcvu8nporbcmj8gp75kj7zr"
+                    },
+                    success: function (follows) {
+                        console.log('FOLLOWS', follows);
+                        $follow.innerHTML = follows.data[0].from_name.toUpperCase();
+                    }
+                });
+            }
+            ajax();
+            refresh(); // REFRESH CALL HERE 
 
+
+            function refresh() {
+                setInterval(function () {
+                    ajax();
+                }, 1000);
+            }
         });
     </script>
 
